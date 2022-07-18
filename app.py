@@ -9,7 +9,7 @@ DATA = pathlib.Path("data")
 
 def records():
     made = pd.DataFrame([], columns=[
-        'Title',
+        'Stat',
         'Player',
         'Record',
     ])
@@ -27,7 +27,7 @@ def records():
 
     for k, v in recorded.items():
         made = made.append({
-            'Title': k,
+            'Stat': k,
             'Player': r_to_p[k],
             'Record': v
         }, ignore_index=True)
