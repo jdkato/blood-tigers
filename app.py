@@ -129,7 +129,7 @@ if __name__ == "__main__":
     df = summary().sort_values(by=['PTS'], ascending=False)
     df = df.round(2)
 
-    AgGrid(df, theme="streamlit", height=300, fit_columns_on_grid_load=True,)
+    AgGrid(df, theme="streamlit", height=300)
 
     st.header("Games")
 
@@ -148,7 +148,6 @@ if __name__ == "__main__":
     AgGrid(
         pd.read_csv(DATA / f"s{s}" / f"Game {g}.csv"),
         theme="streamlit",
-        fit_columns_on_grid_load=True,
         height=175
     )
 
