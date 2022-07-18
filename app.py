@@ -5,6 +5,7 @@ import pandas as pd
 import streamlit as st
 
 DATA = pathlib.Path("data")
+WIN_LOSS = "4 - 0"
 
 
 def records():
@@ -105,8 +106,8 @@ if __name__ == "__main__":
     st.image("https://user-images.githubusercontent.com/8785025/179428151-7be15af8-bf02-42c1-8b77-37d4b4422a39.png")
 
     st.write(
-        """
-        # Beantown Blood Tigers
+        f"""
+        # Beantown Blood Tigers ({WIN_LOSS})
         
         Welcome! :wave:
         
