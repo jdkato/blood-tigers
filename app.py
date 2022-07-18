@@ -3,9 +3,19 @@ import pathlib
 
 import pandas as pd
 import streamlit as st
+import altair as alt
 
 DATA = pathlib.Path("data")
 WIN_LOSS = "4 - 0"
+
+
+def quarter_scoring(s, g):
+    data = pd.DataFrame(game(s, g)["breakdown"])
+    return alt.Chart(data).mark_bar().encode(
+        y=alt.X('Quarter', sort=['1st', '2nd', '3rd', '4th']),
+        x='sum(PTS)',
+        color=alt.Color('Team')
+    )
 
 
 def records():
@@ -160,6 +170,9 @@ if __name__ == "__main__":
         st.warning(f"No stream available for game S{s}G{g}.")
 
     st.table(pd.read_csv(DATA / f"s{s}" / f"Game {g}.csv"))
+
+    breakdown = quarter_scoring(s, g)
+    st.altair_chart(breakdown, use_container_width=True)
 
     st.header("Records")
     st.table(records())

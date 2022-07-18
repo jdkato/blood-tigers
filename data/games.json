@@ -2,19 +2,59 @@
   "1": {
     "1": {
       "title": "Beantown Blood Tigers vs. Eagles",
-      "stream": ""
+      "stream": "",
+      "breakdown": [
+        {"Quarter": "1st", "Team": "Tigers", "PTS": 14},
+        {"Quarter": "2nd", "Team": "Tigers", "PTS": 12},
+        {"Quarter": "3rd", "Team": "Tigers", "PTS": 24},
+        {"Quarter": "4th", "Team": "Tigers", "PTS": 23},
+        {"Quarter": "1st", "Team": "Eagles", "PTS": 13},
+        {"Quarter": "2nd", "Team": "Eagles", "PTS": 15},
+        {"Quarter": "3rd", "Team": "Eagles", "PTS": 21},
+        {"Quarter": "4th", "Team": "Eagles", "PTS": 25}
+      ]
     },
     "2": {
       "title": "Beantown Blood Tigers vs. Mardi Gras Mambas",
-      "stream": "https://www.youtube.com/watch?v=va-W0c5uTeQ"
+      "stream": "https://www.youtube.com/watch?v=va-W0c5uTeQ",
+      "breakdown": [
+        {"Quarter": "1st", "Team": "Tigers", "PTS": 14},
+        {"Quarter": "2nd", "Team": "Tigers", "PTS": 25},
+        {"Quarter": "3rd", "Team": "Tigers", "PTS": 25},
+        {"Quarter": "4th", "Team": "Tigers", "PTS": 23},
+        {"Quarter": "1st", "Team": "Mambas", "PTS": 14},
+        {"Quarter": "2nd", "Team": "Mambas", "PTS": 24},
+        {"Quarter": "3rd", "Team": "Mambas", "PTS": 16},
+        {"Quarter": "4th", "Team": "Mambas", "PTS": 21}
+      ]
     },
     "3": {
       "title": "Beantown Blood Tigers vs. Mississippi Mudkatz",
-      "stream": "https://www.youtube.com/watch?v=y-qsA6LRRkk"
+      "stream": "https://www.youtube.com/watch?v=y-qsA6LRRkk",
+      "breakdown": [
+        {"Quarter": "1st", "Team": "Tigers", "PTS": 16},
+        {"Quarter": "2nd", "Team": "Tigers", "PTS": 13},
+        {"Quarter": "3rd", "Team": "Tigers", "PTS": 20},
+        {"Quarter": "4th", "Team": "Tigers", "PTS": 19},
+        {"Quarter": "1st", "Team": "Mudkatz", "PTS": 9},
+        {"Quarter": "2nd", "Team": "Mudkatz", "PTS": 9},
+        {"Quarter": "3rd", "Team": "Mudkatz", "PTS": 13},
+        {"Quarter": "4th", "Team": "Mudkatz", "PTS": 7}
+      ]
     },
     "4": {
       "title": "Beantown Blood Tigers vs. Kamikaze Pirates",
-      "stream": "https://youtu.be/cLIRGYcTbaU"
+      "stream": "https://youtu.be/cLIRGYcTbaU",
+      "breakdown": [
+        {"Quarter": "1st", "Team": "Tigers", "PTS": 13},
+        {"Quarter": "2nd", "Team": "Tigers", "PTS": 22},
+        {"Quarter": "3rd", "Team": "Tigers", "PTS": 21},
+        {"Quarter": "4th", "Team": "Tigers", "PTS": 14},
+        {"Quarter": "1st", "Team": "Pirates", "PTS": 20},
+        {"Quarter": "2nd", "Team": "Pirates", "PTS": 16},
+        {"Quarter": "3rd", "Team": "Pirates", "PTS": 11},
+        {"Quarter": "4th", "Team": "Pirates", "PTS": 15}
+      ]
     }
   }
 }
