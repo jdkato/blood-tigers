@@ -4,6 +4,8 @@ import pathlib
 import pandas as pd
 import streamlit as st
 
+from st_aggrid import AgGrid, GridOptionsBuilder
+
 DATA = pathlib.Path("data")
 
 
@@ -97,6 +99,7 @@ def summary(season=1):
 
 
 if __name__ == "__main__":
+    st.set_page_config(layout="wide")
     st.image("https://user-images.githubusercontent.com/8785025/179428151-7be15af8-bf02-42c1-8b77-37d4b4422a39.png")
 
     st.write(
@@ -124,20 +127,9 @@ if __name__ == "__main__":
     st.header("Totals")
 
     df = summary().sort_values(by=['PTS'], ascending=False)
-    st.dataframe(df.style.format({
-        "FGM": "{:.0f}",
-        "FGA": "{:.0f}",
-        "FG%": "{:.2f}",
-        "3PM": "{:.0f}",
-        "3PA": "{:.0f}",
-        "3P%": "{:.2f}",
-        "TRB": "{:.2f}",
-        "AST": "{:.2f}",
-        "STL": "{:.2f}",
-        "BLK": "{:.2f}",
-        "TOV": "{:.2f}",
-        "PTS": "{:.2f}"
-    }))
+    df = df.round(2)
+
+    AgGrid(df, theme="streamlit", height=300, fit_columns_on_grid_load=True,)
 
     st.header("Games")
 
@@ -153,7 +145,17 @@ if __name__ == "__main__":
         st.markdown(f"##### *{gdata['title']}*")
         st.warning(f"No stream available for game S{s}G{g}.")
 
-    st.table(pd.read_csv(DATA / f"s{s}" / f"Game {g}.csv"))
+    AgGrid(
+        pd.read_csv(DATA / f"s{s}" / f"Game {g}.csv"),
+        theme="streamlit",
+        fit_columns_on_grid_load=True,
+        height=175
+    )
 
     st.header("Records")
-    st.table(records())
+    AgGrid(
+        records(),
+        theme="streamlit",
+        fit_columns_on_grid_load=True,
+        height=203
+    )
