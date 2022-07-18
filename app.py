@@ -97,7 +97,7 @@ def summary(season=1):
 
 
 if __name__ == "__main__":
-    st.image("https://user-images.githubusercontent.com/8785025/179428151-7be15af8-bf02-42c1-8b77-37d4b4422a39.png", width=78)
+    st.image("https://user-images.githubusercontent.com/8785025/179428151-7be15af8-bf02-42c1-8b77-37d4b4422a39.png")
 
     st.write(
         """
