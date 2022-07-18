@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+streamlit = "*"
+siphon = "*"
+pandas = "*"
+altair = "*"
+numpy = "*"
+bs4 = "*"
+requests = "*"
+lxml = "*"
+pydeck = "*"
+streamlit-aggrid = "*"
+
+[dev-packages]
+pytest = "*"
+watchdog = "*"
+
+[requires]
+python_version = "3.9"
