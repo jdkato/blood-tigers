@@ -157,21 +157,21 @@ if __name__ == "__main__":
 
     st.header("Games")
 
-    col1, col2 = st.columns(2)
+    # col1, col2 = st.columns(2)
     # TODO: dynamic ...
-    s = col1.selectbox('Season', [1])
-    g = col2.selectbox('Game', [1, 2, 3, 4])
+    # s = col1.selectbox('Season', [1])
+    g = st.selectbox('Game', [1, 2, 3, 4])
 
-    gdata = game(s, g)
+    gdata = game(1, g)
     if gdata["stream"] != "":
         st.video(gdata["stream"])
     else:
         st.markdown(f"##### *{gdata['title']}*")
-        st.warning(f"No stream available for game S{s}G{g}.")
+        st.warning(f"No stream available for game S{1}G{g}.")
 
-    st.table(pd.read_csv(DATA / f"s{s}" / f"Game {g}.csv"))
+    st.table(pd.read_csv(DATA / f"s{1}" / f"Game {g}.csv"))
 
-    breakdown = quarter_scoring(s, g)
+    breakdown = quarter_scoring(1, g)
     st.altair_chart(breakdown, use_container_width=True)
 
     st.header("Records")
