@@ -23,7 +23,7 @@ def quarter_scoring(s, g):
 def records():
     made = pd.DataFrame([], columns=[
         'Stat',
-        'Player',
+        'Player(s)',
         'Record',
     ])
 
@@ -43,7 +43,7 @@ def records():
     for k, v in recorded.items():
         made = made.append({
             'Stat': k,
-            'Player': ", ".join(r_to_p[k]),
+            'Player(s)': ", ".join(r_to_p[k]),
             'Record': v
         }, ignore_index=True)
 
