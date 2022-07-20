@@ -33,10 +33,12 @@ def records():
         gdf = pd.read_csv(filename)
         for k, v in recorded.items():
             rdf = gdf.loc[gdf[k].idxmax()]
-            most = rdf[k]
-            if int(most) >= v:
+            most = int(rdf[k])
+            if most > v:
                 recorded[k] = most
-                r_to_p[k].append(rdf["Player"])
+                r_to_p[k] = [rdf["Player"]]
+            elif most == v:
+                r_to_p[k].append(rdf["player"])
 
     for k, v in recorded.items():
         made = made.append({
