@@ -137,7 +137,7 @@ if __name__ == "__main__":
         """
     )
 
-    st.header("Totals")
+    st.header("Season Totals")
 
     df = summary().sort_values(by=['PTS'], ascending=False)
     st.dataframe(df.style.format({
@@ -155,7 +155,7 @@ if __name__ == "__main__":
         "PTS": "{:.2f}"
     }))
 
-    st.header("Games")
+    st.header("Replays and Boxscores")
 
     # col1, col2 = st.columns(2)
     # TODO: dynamic ...
@@ -174,5 +174,5 @@ if __name__ == "__main__":
     breakdown = quarter_scoring(1, g)
     st.altair_chart(breakdown, use_container_width=True)
 
-    st.header("Records")
+    st.header("Single-Game Records")
     st.table(records())
