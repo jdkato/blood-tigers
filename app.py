@@ -38,7 +38,7 @@ def records():
                 recorded[k] = most
                 r_to_p[k] = [rdf["Player"]]
             elif most == v:
-                r_to_p[k].append(rdf["player"])
+                r_to_p[k].append(rdf["Player"])
 
     for k, v in recorded.items():
         made = made.append({
