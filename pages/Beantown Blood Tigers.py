@@ -122,24 +122,7 @@ if __name__ == "__main__":
     st.write(
         f"""
         # Beantown Blood Tigers ({WIN_LOSS})
-        
-        Welcome! :wave:
-        
-        This app tracks season-by-season stats for the *Beantown Blood Tigers*, a team in the [@2kaveragejoes][1] 
-        league (NBA 2K22; Xbox current gen).
-        
-        [1]: https://discord.gg/2VBR8dQ2gb
         """)
-
-    st.info(
-        """
-        👀 You can learn more about the league on [Instagram][1], [TikTok][2], or [Discord][3].
-        
-        [1]: https://www.instagram.com/2kaveragejoes/
-        [2]: https://www.tiktok.com/@2kaveragejoes
-        [3]: https://discord.gg/2VBR8dQ2gb
-        """
-    )
 
     st.header("Season Totals")
 
