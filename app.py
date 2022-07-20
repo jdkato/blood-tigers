@@ -5,6 +5,8 @@ import pandas as pd
 import streamlit as st
 import altair as alt
 
+from collections import defaultdict 
+
 DATA = pathlib.Path("data")
 WIN_LOSS = "5 - 0"
 
@@ -26,20 +28,22 @@ def records():
     ])
 
     recorded = {'PTS': 0, '3PM': 0, 'REB': 0, 'AST': 0, 'STL': 0, 'BLK': 0}
-    r_to_p = {}
+    r_to_p = defaultdict(list)
     for filename in (DATA / "s1").iterdir():
         gdf = pd.read_csv(filename)
         for k, v in recorded.items():
             rdf = gdf.loc[gdf[k].idxmax()]
-            most = rdf[k]
-            if int(most) > v:
+            most = int(rdf[k])
+            if most > v:
                 recorded[k] = most
-                r_to_p[k] = rdf["Player"]
+                r_to_p[k] = [rdf["Player"]]
+            elif most == v:
+                r_to_p[k].append(rdf["Player"])
 
     for k, v in recorded.items():
         made = made.append({
             'Stat': k,
-            'Player': r_to_p[k],
+            'Player': ", ".join(r_to_p[k]),
             'Record': v
         }, ignore_index=True)
 
