@@ -6,7 +6,7 @@ import streamlit as st
 import altair as alt
 
 DATA = pathlib.Path("data")
-WIN_LOSS = "4 - 0"
+WIN_LOSS = "5 - 0"
 
 
 def quarter_scoring(s, g):
