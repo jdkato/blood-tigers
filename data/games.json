@@ -64,10 +64,10 @@
         {"Quarter": "2nd", "Team": "Tigers", "PTS": 20},
         {"Quarter": "3rd", "Team": "Tigers", "PTS": 18},
         {"Quarter": "4th", "Team": "Tigers", "PTS": 9},
-        {"Quarter": "1st", "Team": "Pirates", "PTS": 14},
-        {"Quarter": "2nd", "Team": "Pirates", "PTS": 11},
-        {"Quarter": "3rd", "Team": "Pirates", "PTS": 22},
-        {"Quarter": "4th", "Team": "Pirates", "PTS": 5}
+        {"Quarter": "1st", "Team": "Air", "PTS": 14},
+        {"Quarter": "2nd", "Team": "Air", "PTS": 11},
+        {"Quarter": "3rd", "Team": "Air", "PTS": 22},
+        {"Quarter": "4th", "Team": "Air", "PTS": 5}
       ]
     }
   }
