@@ -69,6 +69,20 @@
         {"Quarter": "3rd", "Team": "Air", "PTS": 22},
         {"Quarter": "4th", "Team": "Air", "PTS": 5}
       ]
+    },
+    "6": {
+      "title": "Beantown Blood Tigers vs. J2K",
+      "stream": "",
+      "breakdown": [
+        {"Quarter": "1st", "Team": "Tigers", "PTS": 23},
+        {"Quarter": "2nd", "Team": "Tigers", "PTS": 16},
+        {"Quarter": "3rd", "Team": "Tigers", "PTS": 15},
+        {"Quarter": "4th", "Team": "Tigers", "PTS": 19},
+        {"Quarter": "1st", "Team": "J2K", "PTS": 16},
+        {"Quarter": "2nd", "Team": "J2K", "PTS": 16},
+        {"Quarter": "3rd", "Team": "J2K", "PTS": 15},
+        {"Quarter": "4th", "Team": "J2K", "PTS": 19}
+      ]
     }
   }
 }
