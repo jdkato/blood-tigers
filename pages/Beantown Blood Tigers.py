@@ -8,7 +8,7 @@ import altair as alt
 from collections import defaultdict 
 
 DATA = pathlib.Path("data")
-WIN_LOSS = "5 - 0"
+WIN_LOSS = "6 - 0"
 
 
 def quarter_scoring(s, g):
