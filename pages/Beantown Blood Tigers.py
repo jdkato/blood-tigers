@@ -147,7 +147,7 @@ if __name__ == "__main__":
     # col1, col2 = st.columns(2)
     # TODO: dynamic ...
     # s = col1.selectbox('Season', [1])
-    g = st.selectbox('Game', [1, 2, 3, 4, 5])
+    g = st.selectbox('Game', [1, 2, 3, 4, 5, 6])
 
     gdata = game(1, g)
     if gdata["stream"] != "":
