@@ -1,4 +1,5 @@
 import pathlib
+import datetime
 
 import streamlit as st
 import pandas as pd
@@ -165,9 +166,14 @@ if __name__ == "__main__":
     with open("style.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+    m_timestamp = DATA.stat().st_mtime
+    m_time = datetime.datetime.fromtimestamp(m_timestamp)
+
     st.write(
         f"""
         # Welcome! :wave:
+        
+        **Last updated**: {m_time.strftime("%m/%d/%Y")}
         
         This app tracks season-by-season stats for the [@2kaveragejoes][1] 
         league. The app is open source and maintained by **@The57thPick**. 
