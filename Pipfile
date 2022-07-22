@@ -5,15 +5,11 @@ name = "pypi"
 
 [packages]
 streamlit = "*"
-siphon = "*"
 pandas = "*"
 altair = "*"
 numpy = "*"
-bs4 = "*"
-requests = "*"
-lxml = "*"
-pydeck = "*"
 streamlit-aggrid = "*"
+extracttable = "*"
 
 [dev-packages]
 pytest = "*"
