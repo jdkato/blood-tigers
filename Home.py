@@ -48,6 +48,7 @@ def summary(season=1):
                 "FG%": fgm / fga if fga else 0,
                 "3PM": tpm,
                 "3PA": tpa,
+                "3PG": tpm / games_played,
                 "3P%": tpm / tpa if tpa else 0,
                 "TRB": totals.loc[totals["Player"] == player, "REB"].sum()
                 / games_played,
@@ -74,6 +75,7 @@ def summary(season=1):
             "FG%",
             "3PM",
             "3PA",
+            "3PG",
             "3P%",
             "TRB",
             "AST",
@@ -83,6 +85,7 @@ def summary(season=1):
             "PTS",
         ],
     )
+
     df = df.sort_values(by=["PTS"], ascending=False)
     df = df.reset_index(drop=True)
 
@@ -210,15 +213,15 @@ if __name__ == "__main__":
     standings_a = standings_a.reset_index(drop=True)
     g1_col.table(standings_a.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
 
-    g2_col.caption("Group B")
+    g1_col.caption("Group B")
     standings_b = standings_df.loc[standings_df['Team'].isin(["CT6", "J2K", "Mambas"])]
     standings_b = standings_b.reset_index(drop=True)
-    g2_col.table(standings_b.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
+    g1_col.table(standings_b.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
 
-    g1_col.caption("Group C")
+    g2_col.caption("Group C")
     standings_c = standings_df.loc[standings_df['Team'].isin(["Kamikaze", "Hollywood", "Brick City"])]
     standings_c = standings_c.reset_index(drop=True)
-    g1_col.table(standings_c.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
+    g2_col.table(standings_c.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
 
     g2_col.caption("Group D")
     standings_d = standings_df.loc[standings_df['Team'].isin(["Deathrow", "Savage Air", "BMB"])]
@@ -238,9 +241,9 @@ if __name__ == "__main__":
     ast_df = leaders("AST", ["Player", "GP", "AST"], stats_df)
     off_col.table(ast_df.style.format({"AST": "{:.2f}"}))
 
-    off_col.caption("Three Pointers Made")
-    tpm_df = leaders("3PM", ["Player", "GP", "3PM", "3P%"], stats_df)
-    off_col.table(tpm_df.style.format({"3PM": "{:.0f}", "3P%": "{:.2f}"}))
+    off_col.caption("3 Pointers Per Game")
+    tpm_df = leaders("3PG", ["Player", "GP", "3PG", "3P%"], stats_df)
+    off_col.table(tpm_df.style.format({"3PG": "{:.2f}", "3P%": "{:.2f}"}))
 
     # Defense
 
