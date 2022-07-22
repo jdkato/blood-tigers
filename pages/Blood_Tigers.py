@@ -7,7 +7,7 @@ import altair as alt
 
 from collections import defaultdict
 
-CSV = pathlib.Path("CSV")
+CSV = pathlib.Path("csv")
 TEAM = "Blood Tigers"
 
 
