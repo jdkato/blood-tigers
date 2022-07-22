@@ -7,12 +7,12 @@ import pandas as pd
 from collections import defaultdict
 
 DATA = pathlib.Path("csv")
-MIN_GP = 2
+MIN_GP = 3
 
 
 def leaders(stat, show, stats_df):
     df = stats_df.sort_values(stat, ascending=False)
-    df = df[(df["GP"] > 1)]
+    df = df[(df["GP"] >= MIN_GP)]
     df = df.head(10)
     df = df.reset_index(drop=True)
 
