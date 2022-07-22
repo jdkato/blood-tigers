@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     boxscores = (Tigers.CSV / f"s1" / "boxscores" / f"{TEAM}").glob("*.csv")
     games_list = [f.name.split(".")[0][1] for f in boxscores]
-    g = st.selectbox("Game", games_list)
+    g = st.selectbox("Game", sorted(games_list))
 
     st.table(pd.read_csv(Tigers.CSV / f"s{1}" / "boxscores" / TEAM / f"g{g}.csv"))
 

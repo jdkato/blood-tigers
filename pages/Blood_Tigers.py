@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
     boxscores = (CSV / f"s1" / "boxscores" / f"{TEAM}").glob("*.csv")
     games_list = [f.name.split(".")[0][1] for f in boxscores]
-    g = st.selectbox("Game", games_list)
+    g = st.selectbox("Game", sorted(games_list))
 
     gdata = game(1, g)
     if gdata["stream"] != "":

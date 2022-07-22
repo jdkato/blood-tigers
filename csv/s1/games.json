@@ -83,6 +83,20 @@
         {"Quarter": "3rd", "Team": "J2K", "PTS": 15},
         {"Quarter": "4th", "Team": "J2K", "PTS": 19}
       ]
+    },
+    "7": {
+      "title": "Beantown Blood Tigers vs. Hollywood Hillrats",
+      "stream": "",
+      "breakdown": [
+        {"Quarter": "1st", "Team": "Tigers", "PTS": 16},
+        {"Quarter": "2nd", "Team": "Tigers", "PTS": 10},
+        {"Quarter": "3rd", "Team": "Tigers", "PTS": 8},
+        {"Quarter": "4th", "Team": "Tigers", "PTS": 11},
+        {"Quarter": "1st", "Team": "Hollywood", "PTS": 17},
+        {"Quarter": "2nd", "Team": "Hollywood", "PTS": 13},
+        {"Quarter": "3rd", "Team": "Hollywood", "PTS": 22},
+        {"Quarter": "4th", "Team": "Hollywood", "PTS": 13}
+      ]
     }
   }
 }
