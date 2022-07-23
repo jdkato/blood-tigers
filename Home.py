@@ -10,15 +10,17 @@ DATA = pathlib.Path("csv")
 MIN_GP = 3
 
 
-def leaders(stat, show, stats_df):
+@st.cache(suppress_st_warning=True)
+def leaders(stat, show, stats_df, min):
     df = stats_df.sort_values(stat, ascending=False)
-    df = df[(df["GP"] >= MIN_GP)]
+    df = df[(df["GP"] >= min)]
     df = df.head(10)
     df = df.reset_index(drop=True)
 
     return df[show]
 
 
+@st.cache(suppress_st_warning=True)
 def summary(season=1):
     players = []
     games = []
@@ -92,6 +94,7 @@ def summary(season=1):
     return df
 
 
+@st.cache(suppress_st_warning=True)
 def compute_records():
     teams = pd.read_csv(DATA / "s1" / "teams.csv")
 
@@ -106,6 +109,7 @@ def compute_records():
     return df
 
 
+@st.cache(suppress_st_warning=True)
 def compute_record(team):
     record = {"Team": team, "GP": 0, "Wins": 0, "PCT": 0, "Margin": []}
 
@@ -136,6 +140,7 @@ def compute_record(team):
     return record
 
 
+@st.cache(suppress_st_warning=True)
 def highs():
     made = []
 
@@ -241,29 +246,29 @@ if __name__ == "__main__":
     # Offense
 
     off_col.caption("Points Per Game")
-    pts_df = leaders("PTS", ["Player", "GP", "PTS", "FG%"], stats_df)
+    pts_df = leaders("PTS", ["Player", "GP", "PTS", "FG%"], stats_df, MIN_GP)
     off_col.table(pts_df.style.format({"PTS": "{:.2f}", "FG%": "{:.2f}"}))
 
     off_col.caption("Assists Per Game")
-    ast_df = leaders("AST", ["Player", "GP", "AST"], stats_df)
+    ast_df = leaders("AST", ["Player", "GP", "AST"], stats_df, MIN_GP)
     off_col.table(ast_df.style.format({"AST": "{:.2f}"}))
 
     off_col.caption("3 Pointers Per Game")
-    tpm_df = leaders("3PG", ["Player", "GP", "3PG", "3P%"], stats_df)
+    tpm_df = leaders("3PG", ["Player", "GP", "3PG", "3P%"], stats_df, MIN_GP)
     off_col.table(tpm_df.style.format({"3PG": "{:.2f}", "3P%": "{:.2f}"}))
 
     # Defense
 
     def_col.caption("Rebounds Per Game")
-    reb_df = leaders("TRB", ["Player", "GP", "TRB"], stats_df)
+    reb_df = leaders("TRB", ["Player", "GP", "TRB"], stats_df, MIN_GP)
     def_col.table(reb_df.style.format({"TRB": "{:.2f}"}))
 
     def_col.caption("Blocks Per Game")
-    blk_df = leaders("BLK", ["Player", "GP", "BLK"], stats_df)
+    blk_df = leaders("BLK", ["Player", "GP", "BLK"], stats_df, MIN_GP)
     def_col.table(blk_df.style.format({"BLK": "{:.2f}"}))
 
     def_col.caption("Steals Per Game")
-    stl_df = leaders("STL", ["Player", "GP", "STL"], stats_df)
+    stl_df = leaders("STL", ["Player", "GP", "STL"], stats_df, MIN_GP)
     def_col.table(stl_df.style.format({"STL": "{:.2f}"}))
 
     st.header("Season Records")
