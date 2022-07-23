@@ -109,8 +109,7 @@ def compute_records(day):
     return df
 
 
-@st.cache
-def compute_record(day, team):
+def compute_record(team):
     record = {"Team": team, "GP": 0, "Wins": 0, "PCT": 0, "Margin": []}
 
     games = (DATA / "s1" / "games").glob("**/*")
