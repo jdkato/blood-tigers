@@ -10,7 +10,7 @@ DATA = pathlib.Path("csv")
 MIN_GP = 3
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache
 def leaders(stat, show, stats_df, min):
     df = stats_df.sort_values(stat, ascending=False)
     df = df[(df["GP"] >= min)]
@@ -20,7 +20,7 @@ def leaders(stat, show, stats_df, min):
     return df[show]
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache
 def summary(season=1):
     players = []
     games = []
@@ -94,7 +94,7 @@ def summary(season=1):
     return df
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache
 def compute_records():
     teams = pd.read_csv(DATA / "s1" / "teams.csv")
 
@@ -109,7 +109,7 @@ def compute_records():
     return df
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache
 def compute_record(team):
     record = {"Team": team, "GP": 0, "Wins": 0, "PCT": 0, "Margin": []}
 
@@ -140,7 +140,7 @@ def compute_record(team):
     return record
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache
 def highs():
     made = []
 
