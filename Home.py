@@ -10,7 +10,8 @@ DATA = pathlib.Path("csv")
 MIN_GP = 3
 
 
-def leaders(stat, show, stats_df, min):
+@st.cache
+def leaders(day, stat, show, stats_df, min):
     df = stats_df.sort_values(stat, ascending=False)
     df = df[(df["GP"] >= min)]
     df = df.head(10)
@@ -19,7 +20,8 @@ def leaders(stat, show, stats_df, min):
     return df[show]
 
 
-def summary(season=1):
+@st.cache
+def summary(day, season=1):
     players = []
     games = []
 
@@ -92,7 +94,8 @@ def summary(season=1):
     return df
 
 
-def compute_records():
+@st.cache
+def compute_records(day):
     teams = pd.read_csv(DATA / "s1" / "teams.csv")
 
     records = []
@@ -106,7 +109,8 @@ def compute_records():
     return df
 
 
-def compute_record(team):
+@st.cache
+def compute_record(day, team):
     record = {"Team": team, "GP": 0, "Wins": 0, "PCT": 0, "Margin": []}
 
     games = (DATA / "s1" / "games").glob("**/*")
@@ -136,7 +140,8 @@ def compute_record(team):
     return record
 
 
-def highs():
+@st.cache
+def highs(day):
     made = []
 
     recorded = {"PTS": 0, "3PM": 0, "REB": 0, "AST": 0, "STL": 0, "BLK": 0}
@@ -169,8 +174,9 @@ if __name__ == "__main__":
     with open("style.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-    m_timestamp = DATA.stat().st_mtime
+    m_timestamp = (DATA / "s1" / "games").stat().st_mtime
     m_time = datetime.datetime.fromtimestamp(m_timestamp)
+    m_day = m_time.strftime("%m/%d/%Y")
 
     st.warning("""
     ❗Please see the [screenshot guide][1] for information on how to best provide images of game boxscores.
@@ -182,7 +188,7 @@ if __name__ == "__main__":
         f"""
         # Welcome! :wave:
         
-        **Last updated**: {m_time.strftime("%m/%d/%Y")}
+        **Last updated**: {m_day}
         
         This app tracks season-by-season stats for the [@2kaveragejoes][1] 
         league. The app is open source and maintained by **@The57thPick**. 
@@ -204,10 +210,10 @@ if __name__ == "__main__":
         """
     )
 
-    stats_df = summary(season=1)
+    stats_df = summary(m_day, season=1)
 
     st.header("Season Standings")
-    standings_df = compute_records()
+    standings_df = compute_records(m_day)
 
     tab1, tab2 = st.tabs(["Overall", "By Group"])
     tab1.table(standings_df.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
@@ -241,30 +247,30 @@ if __name__ == "__main__":
     # Offense
 
     off_col.caption("Points Per Game")
-    pts_df = leaders("PTS", ["Player", "GP", "PTS", "FG%"], stats_df, MIN_GP)
+    pts_df = leaders(m_day, "PTS", ["Player", "GP", "PTS", "FG%"], stats_df, MIN_GP)
     off_col.table(pts_df.style.format({"PTS": "{:.2f}", "FG%": "{:.2f}"}))
 
     off_col.caption("Assists Per Game")
-    ast_df = leaders("AST", ["Player", "GP", "AST"], stats_df, MIN_GP)
+    ast_df = leaders(m_day, "AST", ["Player", "GP", "AST"], stats_df, MIN_GP)
     off_col.table(ast_df.style.format({"AST": "{:.2f}"}))
 
     off_col.caption("3 Pointers Per Game")
-    tpm_df = leaders("3PG", ["Player", "GP", "3PG", "3P%"], stats_df, MIN_GP)
+    tpm_df = leaders(m_day, "3PG", ["Player", "GP", "3PG", "3P%"], stats_df, MIN_GP)
     off_col.table(tpm_df.style.format({"3PG": "{:.2f}", "3P%": "{:.2f}"}))
 
     # Defense
 
     def_col.caption("Rebounds Per Game")
-    reb_df = leaders("TRB", ["Player", "GP", "TRB"], stats_df, MIN_GP)
+    reb_df = leaders(m_day, "TRB", ["Player", "GP", "TRB"], stats_df, MIN_GP)
     def_col.table(reb_df.style.format({"TRB": "{:.2f}"}))
 
     def_col.caption("Blocks Per Game")
-    blk_df = leaders("BLK", ["Player", "GP", "BLK"], stats_df, MIN_GP)
+    blk_df = leaders(m_day, "BLK", ["Player", "GP", "BLK"], stats_df, MIN_GP)
     def_col.table(blk_df.style.format({"BLK": "{:.2f}"}))
 
     def_col.caption("Steals Per Game")
-    stl_df = leaders("STL", ["Player", "GP", "STL"], stats_df, MIN_GP)
+    stl_df = leaders(m_day, "STL", ["Player", "GP", "STL"], stats_df, MIN_GP)
     def_col.table(stl_df.style.format({"STL": "{:.2f}"}))
 
     st.header("Season Records")
-    st.table(highs())
+    st.table(highs(m_day))
