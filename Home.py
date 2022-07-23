@@ -172,6 +172,12 @@ if __name__ == "__main__":
     m_timestamp = DATA.stat().st_mtime
     m_time = datetime.datetime.fromtimestamp(m_timestamp)
 
+    st.warning("""
+    ❗Please see the [screenshot guide][1] for information on how to best provide images of game boxscores.
+    
+    [1]: https://github.com/jdkato/blood-tigers#data-collection
+    """)
+
     st.write(
         f"""
         # Welcome! :wave:

@@ -5,7 +5,7 @@ A repository to track the stats for the @2kaveragejoes league (NBA 2K22).
 # Data Collection
 
 The data in the `csv` directory is automatically scraped from the `game-scores` Discord channel using OCR 
-(or "Optical character recognition"). To make this process require less manual clean up, *clear* and fully-aligned
+(or "Optical character recognition"). To make this process require less manual clean up, *clear* and *aligned*
 screenshots are required.
 
 <table>
