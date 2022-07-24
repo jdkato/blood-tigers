@@ -110,7 +110,7 @@ if __name__ == "__main__":
     standings_d = standings_d.reset_index(drop=True)
     g2_col.table(standings_d.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
 
-    st.header(f"Season Leaders")
+    st.header(f"Individual Stats")
     MIN_GP = st.slider('Minimum games', 1, 15, value=3)
     off_col, def_col = st.columns(2)
 
