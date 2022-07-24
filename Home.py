@@ -1,181 +1,52 @@
 import pathlib
 import datetime
+import sqlite3
 
 import streamlit as st
 import pandas as pd
 
-from collections import defaultdict
-
-DATA = pathlib.Path("csv")
-MIN_GP = 3
+DB = pathlib.Path("2kaveragejoes.sqlite3")
 
 
-@st.cache
-def leaders(day, stat, show, stats_df, min):
-    df = stats_df.sort_values(stat, ascending=False)
-    df = df[(df["GP"] >= min)]
+@st.cache(allow_output_mutation=True)
+def get_database_connection():
+    return sqlite3.connect(DB)
+
+
+@st.cache(hash_funcs={sqlite3.Connection: id})
+def get_standings(conn):
+    df = pd.read_sql_query("SELECT * from Standings", conn)
+    df = df.drop('index', axis=1)
+    df.index = df.index + 1
+    return df
+
+
+@st.cache(hash_funcs={sqlite3.Connection: id})
+def get_highs(conn):
+    df = pd.read_sql_query("SELECT * from Highs", conn)
+    df = df.drop('index', axis=1)
+    df.index = df.index + 1
+    return df
+
+
+@st.cache(hash_funcs={sqlite3.Connection: id})
+def get_leaders(stat, gp, conn):
+    df = pd.read_sql_query(f"SELECT * from {stat}", conn)
+    df = df.drop('index', axis=1)
+    df = df[(df["GP"] >= gp)]
     df = df.head(10)
     df = df.reset_index(drop=True)
-
-    return df[show]
-
-
-@st.cache
-def summary(day, season=1):
-    players = []
-    games = []
-
-    made = []
-    for filename in (DATA / f"s{season}" / "boxscores").glob("**/*.csv"):
-        gdf = pd.read_csv(filename)
-        games.append(gdf)
-        players.extend(gdf["Player"])
-
-    totals = pd.concat(games, axis=0, ignore_index=True)
-    for player in set(players):
-        games_played = players.count(player)
-
-        fgm = float(totals.loc[totals["Player"] == player, "FGM"].sum())
-        fga = float(totals.loc[totals["Player"] == player, "FGA"].sum())
-
-        tpm = float(totals.loc[totals["Player"] == player, "3PM"].sum())
-        tpa = float(totals.loc[totals["Player"] == player, "3PA"].sum())
-
-        made.append(
-            {
-                "Player": player,
-                "GP": games_played,
-                "FGM": fgm,
-                "FGA": fga,
-                "FG%": fgm / fga if fga else 0,
-                "3PM": tpm,
-                "3PA": tpa,
-                "3PG": tpm / games_played,
-                "3P%": tpm / tpa if tpa else 0,
-                "TRB": totals.loc[totals["Player"] == player, "REB"].sum()
-                / games_played,
-                "AST": totals.loc[totals["Player"] == player, "AST"].sum()
-                / games_played,
-                "STL": totals.loc[totals["Player"] == player, "STL"].sum()
-                / games_played,
-                "BLK": totals.loc[totals["Player"] == player, "BLK"].sum()
-                / games_played,
-                "TOV": totals.loc[totals["Player"] == player, "TO"].sum()
-                / games_played,
-                "PTS": totals.loc[totals["Player"] == player, "PTS"].sum()
-                / games_played,
-            },
-        )
-
-    df = pd.DataFrame.from_records(
-        made,
-        columns=[
-            "Player",
-            "GP",
-            "FGM",
-            "FGA",
-            "FG%",
-            "3PM",
-            "3PA",
-            "3PG",
-            "3P%",
-            "TRB",
-            "AST",
-            "STL",
-            "BLK",
-            "TOV",
-            "PTS",
-        ],
-    )
-
-    df = df.sort_values(by=["PTS"], ascending=False)
-    df = df.reset_index(drop=True)
-
+    df.index = df.index + 1
     return df
-
-
-@st.cache
-def compute_records(day):
-    teams = pd.read_csv(DATA / "s1" / "teams.csv")
-
-    records = []
-    for i, entry in teams.iterrows():
-        records.append(compute_record(entry["Team"]))
-
-    df = pd.DataFrame(records)
-    df = df.sort_values(by=["PCT", "GP"], ascending=False)
-    df = df.reset_index(drop=True)
-
-    return df
-
-
-def compute_record(team):
-    record = {"Team": team, "GP": 0, "Wins": 0, "PCT": 0, "Margin": []}
-
-    games = (DATA / "s1" / "games").glob("**/*")
-    for game in games:
-        teams = [t.split(".csv")[0] for t in game.name.split("-")]
-        if team in teams:
-            idx = teams.index(team)
-            rdf = pd.read_csv(game.absolute())
-
-            team_score = rdf.iloc[idx, 5]
-            high_score = rdf["Total"].max()
-
-            record["GP"] += 1
-            if high_score == team_score:
-                record["Wins"] += 1
-                record["Margin"].append(high_score - rdf["Total"].min())
-            else:
-                record["Margin"].append(team_score - high_score)
-
-    if record["GP"] != 0:
-        record["PCT"] = record["Wins"] / record["GP"]
-        record["Margin"] = sum(record["Margin"]) / len(record["Margin"])
-    else:
-        record["PCT"] = 0.0
-        record["Margin"] = 0.0
-
-    return record
-
-
-@st.cache
-def highs(day):
-    made = []
-
-    recorded = {"PTS": 0, "3PM": 0, "REB": 0, "AST": 0, "STL": 0, "BLK": 0}
-    r_to_p = defaultdict(list)
-    for filename in (DATA / f"s1" / "boxscores").glob("**/*.csv"):
-        gdf = pd.read_csv(filename)
-        for k, v in recorded.items():
-            rdf = gdf.loc[gdf[k].idxmax()]
-            most = int(rdf[k])
-            if most > v:
-                recorded[k] = most
-                r_to_p[k] = [rdf["Player"]]
-            elif most == v:
-                r_to_p[k].append(rdf["Player"])
-
-    for k, v in recorded.items():
-        made.append({"Stat": k, "Player(s)": ", ".join(r_to_p[k]), "Record": v})
-
-    return pd.DataFrame(
-        made,
-        columns=[
-            "Stat",
-            "Player(s)",
-            "Record",
-        ],
-    )
 
 
 if __name__ == "__main__":
-    with open("style.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-    m_timestamp = (DATA / "s1" / "games").stat().st_mtime
+    m_timestamp = DB.stat().st_mtime
     m_time = datetime.datetime.fromtimestamp(m_timestamp)
     m_day = m_time.strftime("%m/%d/%Y")
+
+    with open("style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     st.warning("""
     ❗Please see the [screenshot guide][1] for information on how to best provide images of game boxscores.
@@ -209,10 +80,10 @@ if __name__ == "__main__":
         """
     )
 
-    stats_df = summary(m_day, season=1)
+    db = get_database_connection()
 
     st.header("Season Standings")
-    standings_df = compute_records(m_day)
+    standings_df = get_standings(db)
 
     tab1, tab2 = st.tabs(["Overall", "By Group"])
     tab1.table(standings_df.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
@@ -246,30 +117,31 @@ if __name__ == "__main__":
     # Offense
 
     off_col.caption("Points Per Game")
-    pts_df = leaders(m_day, "PTS", ["Player", "GP", "PTS", "FG%"], stats_df, MIN_GP)
+    pts_df = get_leaders("PTS", MIN_GP, db)
     off_col.table(pts_df.style.format({"PTS": "{:.2f}", "FG%": "{:.2f}"}))
 
     off_col.caption("Assists Per Game")
-    ast_df = leaders(m_day, "AST", ["Player", "GP", "AST"], stats_df, MIN_GP)
+    ast_df = get_leaders("AST", MIN_GP, db)
     off_col.table(ast_df.style.format({"AST": "{:.2f}"}))
 
     off_col.caption("3 Pointers Per Game")
-    tpm_df = leaders(m_day, "3PG", ["Player", "GP", "3PG", "3P%"], stats_df, MIN_GP)
+    tpm_df = get_leaders("TPG", MIN_GP, db)
     off_col.table(tpm_df.style.format({"3PG": "{:.2f}", "3P%": "{:.2f}"}))
 
     # Defense
 
     def_col.caption("Rebounds Per Game")
-    reb_df = leaders(m_day, "TRB", ["Player", "GP", "TRB"], stats_df, MIN_GP)
+    reb_df = get_leaders("REB", MIN_GP, db)
     def_col.table(reb_df.style.format({"TRB": "{:.2f}"}))
 
     def_col.caption("Blocks Per Game")
-    blk_df = leaders(m_day, "BLK", ["Player", "GP", "BLK"], stats_df, MIN_GP)
+    blk_df = get_leaders("BLK", MIN_GP, db)
     def_col.table(blk_df.style.format({"BLK": "{:.2f}"}))
 
     def_col.caption("Steals Per Game")
-    stl_df = leaders(m_day, "STL", ["Player", "GP", "STL"], stats_df, MIN_GP)
+    stl_df = get_leaders("STL", MIN_GP, db)
     def_col.table(stl_df.style.format({"STL": "{:.2f}"}))
 
     st.header("Season Records")
-    st.table(highs(m_day))
+    highs_df = get_highs(db)
+    st.table(highs_df)
