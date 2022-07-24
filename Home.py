@@ -137,7 +137,21 @@ if __name__ == "__main__":
     st.header(f"Team Stats")
     tab3, tab4, tab5 = st.tabs(["Team", "Opponent", "Differential"])
 
-
+    team_df = get_team_summary(db)
+    tab3.dataframe(team_df.style.format({
+        "FGM": "{:.2f}",
+        "FGA": "{:.2f}",
+        "FG%": "{:.2f}",
+        "3PM": "{:.2f}",
+        "3P%": "{:.2f}",
+        "3PA": "{:.2f}",
+        "TRB": "{:.2f}",
+        "AST": "{:.2f}",
+        "STL": "{:.2f}",
+        "BLK": "{:.2f}",
+        "TOV": "{:.2f}",
+        "PTS": "{:.2f}",
+    }))
 
     st.header(f"Individual Stats")
     MIN_GP = st.slider('Minimum games', 1, 15, value=3)
