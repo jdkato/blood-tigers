@@ -146,6 +146,38 @@ if __name__ == "__main__":
         "PTS": "{:.2f}",
     }))
 
+    opp_df = get_opp_summary(db)
+    tab4.dataframe(opp_df.style.format({
+        "FGM": "{:.2f}",
+        "FGA": "{:.2f}",
+        "FG%": "{:.2f}",
+        "3PM": "{:.2f}",
+        "3P%": "{:.2f}",
+        "3PA": "{:.2f}",
+        "TRB": "{:.2f}",
+        "AST": "{:.2f}",
+        "STL": "{:.2f}",
+        "BLK": "{:.2f}",
+        "TOV": "{:.2f}",
+        "PTS": "{:.2f}",
+    }))
+
+    diff_df = get_diff_summary(db)
+    tab5.dataframe(diff_df.style.format({
+        "FGM": "{:.2f}",
+        "FGA": "{:.2f}",
+        "FG%": "{:.2f}",
+        "3PM": "{:.2f}",
+        "3P%": "{:.2f}",
+        "3PA": "{:.2f}",
+        "TRB": "{:.2f}",
+        "AST": "{:.2f}",
+        "STL": "{:.2f}",
+        "BLK": "{:.2f}",
+        "TOV": "{:.2f}",
+        "PTS": "{:.2f}",
+    }))
+
     st.header(f"Individual Stats")
     MIN_GP = st.slider('Minimum games', 1, 15, value=3)
     off_col, def_col = st.columns(2)
