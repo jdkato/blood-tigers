@@ -98,6 +98,20 @@
         {"Quarter": "4th", "Team": "Hollywood", "PTS": 13}
       ]
     },
+    "8": {
+      "title": "Beantown Blood Tigers vs. Brick City",
+      "stream": "https://www.youtube.com/watch?v=1MdPCIrtddE",
+      "breakdown": [
+        {"Quarter": "1st", "Team": "Tigers", "PTS": 7},
+        {"Quarter": "2nd", "Team": "Tigers", "PTS": 14},
+        {"Quarter": "3rd", "Team": "Tigers", "PTS": 15},
+        {"Quarter": "4th", "Team": "Tigers", "PTS": 21},
+        {"Quarter": "1st", "Team": "Brick City", "PTS": 23},
+        {"Quarter": "2nd", "Team": "Brick City", "PTS": 13},
+        {"Quarter": "3rd", "Team": "Brick City", "PTS": 18},
+        {"Quarter": "4th", "Team": "Brick City", "PTS": 15}
+      ]
+    },
     "9": {
       "title": "Beantown Blood Tigers vs. BMB",
       "stream": "",
