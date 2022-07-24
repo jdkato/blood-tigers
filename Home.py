@@ -30,6 +30,30 @@ def get_highs(conn):
 
 
 @st.cache(hash_funcs={sqlite3.Connection: id})
+def get_team_summary(conn):
+    df = pd.read_sql_query("SELECT * from Team", conn)
+    df = df.drop('index', axis=1)
+    df.index = df.index + 1
+    return df
+
+
+@st.cache(hash_funcs={sqlite3.Connection: id})
+def get_opp_summary(conn):
+    df = pd.read_sql_query("SELECT * from Opponent", conn)
+    df = df.drop('index', axis=1)
+    df.index = df.index + 1
+    return df
+
+
+@st.cache(hash_funcs={sqlite3.Connection: id})
+def get_diff_summary(conn):
+    df = pd.read_sql_query("SELECT * from Differential", conn)
+    df = df.drop('index', axis=1)
+    df.index = df.index + 1
+    return df
+
+
+@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_leaders(stat, gp, conn):
     df = pd.read_sql_query(f"SELECT * from {stat}", conn)
     df = df.drop('index', axis=1)
@@ -112,6 +136,54 @@ if __name__ == "__main__":
 
     st.header(f"Team Stats")
     tab3, tab4, tab5 = st.tabs(["Team", "Opponent", "Differential"])
+
+    team_df = get_team_summary(db)
+    tab3.dataframe(team_df.style.format({
+        "FGM": "{:.2f}",
+        "FGA": "{:.2f}",
+        "FG%": "{:.2f}",
+        "3PM": "{:.2f}",
+        "3P%": "{:.2f}",
+        "3PA": "{:.2f}",
+        "TRB": "{:.2f}",
+        "AST": "{:.2f}",
+        "STL": "{:.2f}",
+        "BLK": "{:.2f}",
+        "TOV": "{:.2f}",
+        "PTS": "{:.2f}",
+    }))
+
+    opp_df = get_opp_summary(db)
+    tab4.dataframe(opp_df.style.format({
+        "FGM": "{:.2f}",
+        "FGA": "{:.2f}",
+        "FG%": "{:.2f}",
+        "3PM": "{:.2f}",
+        "3P%": "{:.2f}",
+        "3PA": "{:.2f}",
+        "TRB": "{:.2f}",
+        "AST": "{:.2f}",
+        "STL": "{:.2f}",
+        "BLK": "{:.2f}",
+        "TOV": "{:.2f}",
+        "PTS": "{:.2f}",
+    }))
+
+    diff_df = get_diff_summary(db)
+    tab5.dataframe(diff_df.style.format({
+        "FGM": "{:.2f}",
+        "FGA": "{:.2f}",
+        "FG%": "{:.2f}",
+        "3PM": "{:.2f}",
+        "3P%": "{:.2f}",
+        "3PA": "{:.2f}",
+        "TRB": "{:.2f}",
+        "AST": "{:.2f}",
+        "STL": "{:.2f}",
+        "BLK": "{:.2f}",
+        "TOV": "{:.2f}",
+        "PTS": "{:.2f}",
+    }))
 
     st.header(f"Individual Stats")
     MIN_GP = st.slider('Minimum games', 1, 15, value=3)
