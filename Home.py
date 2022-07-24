@@ -29,7 +29,6 @@ def get_highs(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_team_summary(conn):
     df = pd.read_sql_query("SELECT * from Team", conn)
     df = df.drop('index', axis=1)
@@ -37,7 +36,6 @@ def get_team_summary(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_opp_summary(conn):
     df = pd.read_sql_query("SELECT * from Opponent", conn)
     df = df.drop('index', axis=1)
@@ -45,7 +43,6 @@ def get_opp_summary(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_diff_summary(conn):
     df = pd.read_sql_query("SELECT * from Differential", conn)
     df = df.drop('index', axis=1)
