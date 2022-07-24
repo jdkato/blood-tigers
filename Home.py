@@ -8,12 +8,10 @@ import pandas as pd
 DB = pathlib.Path("2kaveragejoes.sqlite3")
 
 
-@st.cache(allow_output_mutation=True)
 def get_database_connection():
     return sqlite3.connect(DB, check_same_thread=False)
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_standings(conn):
     df = pd.read_sql_query("SELECT * from Standings", conn)
     df = df.drop('index', axis=1)
@@ -21,7 +19,6 @@ def get_standings(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_highs(conn):
     df = pd.read_sql_query("SELECT * from Highs", conn)
     df = df.drop('index', axis=1)
@@ -29,7 +26,6 @@ def get_highs(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_team_summary(conn):
     df = pd.read_sql_query("SELECT * from Team", conn)
     df = df.drop('index', axis=1)
@@ -37,7 +33,6 @@ def get_team_summary(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_opp_summary(conn):
     df = pd.read_sql_query("SELECT * from Opponent", conn)
     df = df.drop('index', axis=1)
@@ -45,7 +40,6 @@ def get_opp_summary(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_diff_summary(conn):
     df = pd.read_sql_query("SELECT * from Differential", conn)
     df = df.drop('index', axis=1)
@@ -53,7 +47,6 @@ def get_diff_summary(conn):
     return df
 
 
-@st.cache(hash_funcs={sqlite3.Connection: id})
 def get_leaders(stat, gp, conn):
     df = pd.read_sql_query(f"SELECT * from {stat}", conn)
     df = df.drop('index', axis=1)
