@@ -10,7 +10,7 @@ DB = pathlib.Path("2kaveragejoes.sqlite3")
 
 @st.cache(allow_output_mutation=True)
 def get_database_connection():
-    return sqlite3.connect(DB)
+    return sqlite3.connect(DB, check_same_thread=False)
 
 
 @st.cache(hash_funcs={sqlite3.Connection: id})
@@ -109,6 +109,9 @@ if __name__ == "__main__":
     standings_d = standings_df.loc[standings_df['Team'].isin(["Deathrow", "Savage Air", "BMB"])]
     standings_d = standings_d.reset_index(drop=True)
     g2_col.table(standings_d.style.format({"PCT": "{:.2f}", "Margin": "{:.2f}"}))
+
+    st.header(f"Team Stats")
+    tab3, tab4, tab5 = st.tabs(["Team", "Opponent", "Differential"])
 
     st.header(f"Individual Stats")
     MIN_GP = st.slider('Minimum games', 1, 15, value=3)
