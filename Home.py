@@ -186,7 +186,7 @@ if __name__ == "__main__":
 
     off_col.caption("Points Per Game")
     pts_df = get_leaders("PTS", MIN_GP, db)
-    off_col.table(pts_df.style.format({"PTS": "{:.2f}", "FG%": "{:.2f}"}))
+    off_col.table(pts_df.style.format({"PTS": "{:.2f}"}))
 
     off_col.caption("Assists Per Game")
     ast_df = get_leaders("AST", MIN_GP, db)
@@ -194,7 +194,11 @@ if __name__ == "__main__":
 
     off_col.caption("3 Pointers Per Game")
     tpm_df = get_leaders("TPG", MIN_GP, db)
-    off_col.table(tpm_df.style.format({"3PG": "{:.2f}", "3P%": "{:.2f}"}))
+    off_col.table(tpm_df.style.format({"3PG": "{:.2f}"}))
+
+    off_col.caption("3 Point %")
+    tpp_df = get_leaders("TPP", MIN_GP, db)
+    off_col.table(tpp_df.style.format({"3P%": "{:.2f}", "3PM": "{:.0f}"}))
 
     # Defense
 
@@ -209,6 +213,10 @@ if __name__ == "__main__":
     def_col.caption("Steals Per Game")
     stl_df = get_leaders("STL", MIN_GP, db)
     def_col.table(stl_df.style.format({"STL": "{:.2f}"}))
+
+    def_col.caption("Field Goal %")
+    fgp_df = get_leaders("FGP", MIN_GP, db)
+    def_col.table(fgp_df.style.format({"FG%": "{:.2f}", "FGM": "{:.0f}"}))
 
     st.header("Season Records")
     highs_df = get_highs(db)

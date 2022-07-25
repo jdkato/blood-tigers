@@ -326,14 +326,20 @@ if __name__ == "__main__":
     standings_df.to_sql(name="Standings", con=connection)
     # standings_df.to_csv("build/standings.csv", sep=',', index=False)
 
-    pts_df = leaders("PTS", ["Player", "GP", "PTS", "FG%"], stats_df)
+    pts_df = leaders("PTS", ["Player", "GP", "PTS"], stats_df)
     pts_df.to_sql(name="PTS", con=connection)
+
+    fgp_df = leaders("FG%", ["Player", "GP", "FG%", "FGM"], stats_df)
+    fgp_df.to_sql(name="FGP", con=connection)
 
     ast_df = leaders("AST", ["Player", "GP", "AST"], stats_df)
     ast_df.to_sql(name="AST", con=connection)
 
-    tmp_df = leaders("3PG", ["Player", "GP", "3PG", "3P%"], stats_df)
+    tmp_df = leaders("3PG", ["Player", "GP", "3PG"], stats_df)
     tmp_df.to_sql(name="TPG", con=connection)
+
+    tpp_df = leaders("3P%", ["Player", "GP", "3P%", "3PM"], stats_df)
+    tpp_df.to_sql(name="TPP", con=connection)
 
     reb_df = leaders("TRB", ["Player", "GP", "TRB"], stats_df)
     reb_df.to_sql(name="REB", con=connection)
