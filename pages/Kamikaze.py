@@ -37,11 +37,11 @@ if __name__ == "__main__":
 
     st.header("Boxscores")
 
-    boxscores = (Tigers.CSV / f"s1" / "boxscores" / f"{TEAM}").glob("*.csv")
+    boxscores = sorted(list((Tigers.CSV / f"s1" / "boxscores" / f"{TEAM}").glob("*.csv")))
     games_list = [f.name.split(".")[0][1] for f in boxscores]
     g = st.selectbox("Game", sorted(games_list))
 
-    st.table(pd.read_csv(Tigers.CSV / f"s{1}" / "boxscores" / TEAM / f"g{g}.csv"))
+    st.table(pd.read_csv(list(boxscores)[int(g)-1]))
 
     st.header("Single-Game Records")
     st.table(Tigers.records(TEAM))

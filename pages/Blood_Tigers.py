@@ -163,7 +163,7 @@ if __name__ == "__main__":
     # col1, col2 = st.columns(2)
     # s = col1.selectbox('Season', [1])
 
-    boxscores = (CSV / f"s1" / "boxscores" / f"{TEAM}").glob("*.csv")
+    boxscores = sorted(list((CSV / f"s1" / "boxscores" / f"{TEAM}").glob("*.csv")))
     games_list = [f.name.split(".")[0][1] for f in boxscores]
     g = st.selectbox("Game", sorted(games_list))
 
@@ -174,7 +174,7 @@ if __name__ == "__main__":
         st.markdown(f"##### *{gdata['title']}*")
         st.warning(f"No stream available for game S{1}G{g}.")
 
-    st.table(pd.read_csv(CSV / f"s{1}" / "boxscores" / TEAM / f"g{g}.csv"))
+    st.table(pd.read_csv(list(boxscores)[int(g)-1]))
 
     breakdown = quarter_scoring(1, g)
     st.altair_chart(breakdown, use_container_width=True)
