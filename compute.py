@@ -349,11 +349,11 @@ if __name__ == "__main__":
 
     total_df = totals()
     total_df.to_sql(name="Team", con=connection)
-    total_df.to_csv("build/total.csv", sep=',', index=False)
+    #total_df.to_csv("build/total.csv", sep=',', index=False)
 
     opp_df = op_totals()
     opp_df.to_sql(name="Opponent", con=connection)
-    opp_df.to_csv("build/opp.csv", sep=',', index=False)
+    #opp_df.to_csv("build/opp.csv", sep=',', index=False)
 
     rows = []
     for i, row in total_df.iterrows():
@@ -368,5 +368,5 @@ if __name__ == "__main__":
     diff_df = diff_df.sort_values(by=["PTS"], ascending=False)
     diff_df = diff_df.reset_index(drop=True)
     diff_df.to_sql(name="Differential", con=connection)
-    diff_df.to_csv("build/diff.csv", sep=',', index=False)
+    #diff_df.to_csv("build/diff.csv", sep=',', index=False)
 
