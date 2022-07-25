@@ -10,6 +10,7 @@ altair = "*"
 numpy = "*"
 streamlit-aggrid = "*"
 extracttable = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 pytest = "*"

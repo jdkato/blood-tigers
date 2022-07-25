@@ -1,14 +1,13 @@
 import pathlib
-import os
-import sqlite3
 
 import pandas as pd
+import streamlit as st
 
 from collections import defaultdict
+from sqlalchemy import create_engine
 
 
 DATA = pathlib.Path("csv")
-DATABASE = "2kaveragejoes.sqlite3"
 
 
 def leaders(stat, show, stats_df):
@@ -307,58 +306,47 @@ def highs():
 
 
 if __name__ == "__main__":
-    if os.path.exists(DATABASE):
-        os.remove(DATABASE)
-
-    # DB ...
-    connection = sqlite3.connect(DATABASE)
-
-    """
-    cursor = connection.cursor()
-    for table, query in TABLE_2_QUERY.items():
-        cursor.execute("DROP TABLE IF EXISTS '{0}'".format(table))
-        cursor.execute(query)
-    """
+    engine = create_engine(st.secrets["DB_URL"])
 
     stats_df = summary(season=1)
 
     standings_df = compute_records()
-    standings_df.to_sql(name="Standings", con=connection)
+    standings_df.to_sql(name="Standings", con=engine)
     # standings_df.to_csv("build/standings.csv", sep=',', index=False)
 
     pts_df = leaders("PTS", ["Player", "GP", "PTS"], stats_df)
-    pts_df.to_sql(name="PTS", con=connection)
+    pts_df.to_sql(name="PTS", con=engine)
 
     fgp_df = leaders("FG%", ["Player", "GP", "FG%", "FGM"], stats_df)
-    fgp_df.to_sql(name="FGP", con=connection)
+    fgp_df.to_sql(name="FGP", con=engine)
 
     ast_df = leaders("AST", ["Player", "GP", "AST"], stats_df)
-    ast_df.to_sql(name="AST", con=connection)
+    ast_df.to_sql(name="AST", con=engine)
 
     tmp_df = leaders("3PG", ["Player", "GP", "3PG"], stats_df)
-    tmp_df.to_sql(name="TPG", con=connection)
+    tmp_df.to_sql(name="TPG", con=engine)
 
     tpp_df = leaders("3P%", ["Player", "GP", "3P%", "3PM"], stats_df)
-    tpp_df.to_sql(name="TPP", con=connection)
+    tpp_df.to_sql(name="TPP", con=engine)
 
     reb_df = leaders("TRB", ["Player", "GP", "TRB"], stats_df)
-    reb_df.to_sql(name="REB", con=connection)
+    reb_df.to_sql(name="REB", con=engine)
 
     blk_df = leaders("BLK", ["Player", "GP", "BLK"], stats_df)
-    blk_df.to_sql(name="BLK", con=connection)
+    blk_df.to_sql(name="BLK", con=engine)
 
     stl_df = leaders("STL", ["Player", "GP", "STL"], stats_df)
-    stl_df.to_sql(name="STL", con=connection)
+    stl_df.to_sql(name="STL", con=engine)
 
     high_df = highs()
-    high_df.to_sql(name="Highs", con=connection)
+    high_df.to_sql(name="Highs", con=engine)
 
     total_df = totals()
-    total_df.to_sql(name="Team", con=connection)
+    total_df.to_sql(name="Team", con=engine)
     #total_df.to_csv("build/total.csv", sep=',', index=False)
 
     opp_df = op_totals()
-    opp_df.to_sql(name="Opponent", con=connection)
+    opp_df.to_sql(name="Opponent", con=engine)
     #opp_df.to_csv("build/opp.csv", sep=',', index=False)
 
     rows = []
@@ -373,6 +361,6 @@ if __name__ == "__main__":
     diff_df = pd.DataFrame(rows)
     diff_df = diff_df.sort_values(by=["PTS"], ascending=False)
     diff_df = diff_df.reset_index(drop=True)
-    diff_df.to_sql(name="Differential", con=connection)
+    diff_df.to_sql(name="Differential", con=engine)
     #diff_df.to_csv("build/diff.csv", sep=',', index=False)
 
