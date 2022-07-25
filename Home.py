@@ -179,7 +179,7 @@ if __name__ == "__main__":
     }))
 
     st.header(f"Individual Stats")
-    MIN_GP = st.slider('Minimum games', 1, 15, value=3)
+    MIN_GP = st.slider('Minimum games', 1, 15, value=4)
     off_col, def_col = st.columns(2)
 
     # Offense
